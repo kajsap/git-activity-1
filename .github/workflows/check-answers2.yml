@@ -1,0 +1,25 @@
+name: Check Question 2
+
+on:
+  push:
+    paths:
+      - 'questions/question2.txt'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check answer
+        run: |
+          answer=$(grep "Answer:" questions/question2.txt | sed 's/Answer://' | tr '[:upper:]' '[:lower:]' | xargs)
+
+          if [ "$answer" = "code" ]; then
+            echo "Question 2 correct!"
+          else
+            echo "Question 2 incorrect!"
+            exit 1
+          fi
