@@ -1,0 +1,25 @@
+name: Check Question 5
+
+on:
+  push:
+    paths:
+      - 'questions/question5.txt'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check answer
+        run: |
+          answer=$(grep "Answer:" questions/question5.txt | sed 's/Answer://' | tr '[:upper:]' '[:lower:]' | xargs)
+
+          if [ "$answer" = "ton" ]; then
+            echo "Question 5 correct!"
+          else
+            echo "Question 5 incorrect!"
+            exit 1
+          fi
